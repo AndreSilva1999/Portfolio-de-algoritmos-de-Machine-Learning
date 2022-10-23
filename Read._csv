@@ -1,0 +1,15 @@
+import numpy as np
+import pandas as pd
+
+class CSV:
+    
+    def read_csv(self,path,sep,col=False,names=False) -> None:
+        self.file= pd.read_csv(path,sep,index_col=col,index_label=names)
+        return self.file
+    
+    def write_csv(self,name,sep,col=False,names=False):
+        self.file.to_csv(name,sep,index_col=col,index_label=names)
+
+
+
+    
