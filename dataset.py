@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
+<<<<<<< HEAD
 from typing import Tuple, Sequence
+=======
+
+>>>>>>> 640a6ab55fcf35ea9928cdd8a3af9f49bad5e9e8
 
 class Dataset:
 
@@ -59,6 +63,7 @@ class Dataset:
                                      columns=[self.features], dtype = int)
         
         return exp_dataframe
+<<<<<<< HEAD
 
     def from_random(cls,
                     n_samples: int,
@@ -91,6 +96,23 @@ if __name__=="__main__":
     dataset = Dataset.from_random(600, 100, 2)
     print(dataset)
 
+=======
+    
+if __name__=="__main__":
+    x= np.array([[1,2,3],[1,2,3]])
+    y= np.array([1,2])
+    features=["A","B","C"]
+    label= "y"
+    dataset= Dataset(x=x,y=y,features=features,label=label)
+    # print(dataset.shape())   
+    # print(dataset.labels())
+    print(dataset.get_classes())
+    # print(dataset.get_average())
+    # print(dataset.get_variance())
+    # print(dataset.get_median())
+    # print(dataset.get_min_max())
+    print(dataset.summary())
+>>>>>>> 640a6ab55fcf35ea9928cdd8a3af9f49bad5e9e8
     #dataset.summary()
     # print(dataset.dropna())
         
