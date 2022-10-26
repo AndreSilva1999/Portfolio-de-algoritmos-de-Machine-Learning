@@ -3,7 +3,7 @@ import random
 import pandas as pd
 import numpy as np
 import sys
-from si.euclidean_distance import euclidean_distance
+from si.statistics.euclidean_distance import euclidean_distance
 sys.path.append("/Users/André Silva/SI/")
 from dataset import Dataset
 from typing import Callable

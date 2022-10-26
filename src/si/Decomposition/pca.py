@@ -3,10 +3,8 @@ from formatter import NullFormatter
 import pandas as pd
 import numpy as np
 import sys
-from si.f_classification import f_classification
-from si.euclidean_distance import euclidean_distance
 sys.path.append("/Users/André Silva/SI/")
-from dataset import Dataset
+from si.data.dataset1 import Dataset
 from typing import Callable
 
 

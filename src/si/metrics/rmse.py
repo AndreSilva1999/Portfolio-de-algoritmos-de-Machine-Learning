@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import sys
 sys.path.append("/Users/André Silva/SI/")
-from dataset import Dataset
-from typing import Callable
 import math
 
 

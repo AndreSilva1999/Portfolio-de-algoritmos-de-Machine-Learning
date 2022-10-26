@@ -60,56 +60,17 @@ class Dataset:
         
         return exp_dataframe
 
-    def from_random(cls,
-                    n_samples: int,
-                    n_features: int,
-                    n_classes: int = 2,
-                    features: Sequence[str] = None,
-                    label: str = None):
-        
-
-        X = np.random.rand(n_samples, n_features)
-        y = np.random.randint(0, n_classes, n_samples)
-        return cls(X, y, features=features, label=label)
-
-
-
-if __name__=="__main__":
-    # x= np.array([[1,2,3],[1,2,3]])
-    # y= np.array([1,2])
-    # features=["A","B","C"]
-    # label= "y"
-    # dataset= Dataset(x=x,y=y,features=features,label=label)
-    # print(dataset.shape())   
-    # print(dataset.labels())
-    # print(dataset.get_classes())
-    # # print(dataset.get_average())
-    # # print(dataset.get_variance())
-    # # print(dataset.get_median())
-    # # print(dataset.get_min_max())
-    # print(dataset.summary())
-    dataset = Dataset.from_random(600, 100, 2)
-    print(dataset)
-
-=======
-    
-if __name__=="__main__":
-    x= np.array([[1,2,3],[1,2,3]])
-    y= np.array([1,2])
-    features=["A","B","C"]
-    label= "y"
-    dataset= Dataset(x=x,y=y,features=features,label=label)
-    # print(dataset.shape())   
-    # print(dataset.labels())
-    print(dataset.get_classes())
-    # print(dataset.get_average())
-    # print(dataset.get_variance())
-    # print(dataset.get_median())
-    # print(dataset.get_min_max())
-    print(dataset.summary())
->>>>>>> 640a6ab55fcf35ea9928cdd8a3af9f49bad5e9e8
-    #dataset.summary()
-    # print(dataset.dropna())
-        
-
-
+# if __name__=="__main__":
+#     # x= np.array([[1,2,3],[1,2,3]])
+#     # y= np.array([1,2])
+#     # features=["A","B","C"]
+#     # label= "y"
+#     # dataset= Dataset(x=x,y=y,features=features,label=label)
+#     # print(dataset.shape())   
+#     # print(dataset.labels())
+#     # print(dataset.get_classes())
+#     # # print(dataset.get_average())
+#     # # print(dataset.get_variance())
+#     # # print(dataset.get_median())
+#     # # print(dataset.get_min_max())
+#     # print(dataset.summary())
