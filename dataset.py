@@ -1,10 +1,6 @@
 import pandas as pd
 import numpy as np
-<<<<<<< HEAD
 from typing import Tuple, Sequence
-=======
-
->>>>>>> 640a6ab55fcf35ea9928cdd8a3af9f49bad5e9e8
 
 class Dataset:
 
@@ -63,7 +59,6 @@ class Dataset:
                                      columns=[self.features], dtype = int)
         
         return exp_dataframe
-<<<<<<< HEAD
 
     def from_random(cls,
                     n_samples: int,
