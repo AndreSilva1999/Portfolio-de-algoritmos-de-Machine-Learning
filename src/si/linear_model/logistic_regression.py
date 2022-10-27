@@ -53,8 +53,14 @@ class LogisticRegression:
         self.theta = None
         self.theta_zero = None
         self.cost_history= {}
+    
+    def fit(self,dataset: Dataset, use_adaptive_alpha:bool= True):
+        if use_adaptive_alpha:
+            self._adaptive_fit(dataset)
+        else:
+            self._regular_fit(dataset)
 
-    def fit(self, dataset: Dataset) -> 'LogisticRegression':
+    def _regular_fit(self, dataset: Dataset) -> 'LogisticRegression':
         """
         Fit the model to the dataset
 
@@ -65,7 +71,7 @@ class LogisticRegression:
 
         Returns
         -------
-        self: RidgeRegression
+        self: Logistic_reg
             The fitted model
         """
         m, n = dataset.shape()
@@ -100,6 +106,55 @@ class LogisticRegression:
                 break
 
         return self
+
+    def _adaptive_fit(self,dataset: Dataset,use_adaptive_alpha: bool= True) -> 'LogisticRegression':
+        """
+        Fit the model to the dataset
+
+        Parameters
+        ----------
+        dataset: Dataset
+            The dataset to fit the model to
+
+        Returns
+        -------
+        self: Logistic_reg
+            The fitted model
+        """
+        m, n = dataset.shape()
+
+        # initialize the model parameters
+        self.theta = np.zeros(n)
+        self.theta_zero = 0
+
+        # gradient descent
+
+        for i in range(self.max_iter):
+            # predicted y
+            y_pred = np.dot(dataset.X, self.theta) + self.theta_zero
+            
+            y_pred= sigmoid(y_pred)
+
+            # computing and updating the gradient with the learning rate
+            # vector shape (n_features)-> gradient[k] updates self.theta[k]
+            gradient = (self.alpha * (1 / m)) * np.dot(y_pred - dataset.y, dataset.X)
+
+            # computing the penalty
+            penalization_term = self.alpha * (self.l2_penalty / m) * self.theta
+
+            # updating the model parameters
+            self.theta = self.theta - gradient - penalization_term
+            
+            self.theta_zero = self.theta_zero - (self.alpha * (1 / m)) * np.sum(y_pred - dataset.y)
+
+            #Store the cost in a dictionary
+            self.cost_history[i]=self.cost(dataset)
+            #Stops the gradient if condition
+            if i != 0 and (self.cost_history[i-1]-self.cost_history[i] < self.stop):
+                self.theta= self.theta/2
+
+        return self
+
 
     def predict(self, dataset: Dataset) -> np.array:
         """
@@ -172,7 +227,7 @@ if __name__ == '__main__':
 
     #fit the model
     model = LogisticRegression()
-    model.fit(dataset_)
+    model._regular_fit(dataset_)
     
     #get coefs
     print(f"Parameters: {model.theta}")
