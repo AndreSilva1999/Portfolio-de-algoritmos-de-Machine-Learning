@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import sys
 sys.path.append("/Users/André Silva/SI/")
-from dataset import Dataset
+from si.data.dataset1 import Dataset
 from typing import Callable
 
 
@@ -15,8 +15,7 @@ def train_test_split(dataset: Dataset, test_size: float, random_state:int = 42):
     perm= np.random.permutation(data)
     test_indxs= perm[:n_test]
     train_indxs= perm[n_test:]
-
-    train=Dataset(dataset.x[train_indxs], dataset.y[train_indxs], features=dataset.features, label=dataset.label)
-    test= Dataset(dataset.x[test_indxs],dataset.y[test_indxs], features=dataset.features, label=dataset.label)
+    train=Dataset(dataset.X[train_indxs], dataset.y[train_indxs], features=dataset.features, label=dataset.label)
+    test= Dataset(dataset.X[test_indxs],dataset.y[test_indxs], features=dataset.features, label=dataset.label)
     return train,test
 

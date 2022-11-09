@@ -54,7 +54,7 @@ class LogisticRegression:
         self.theta_zero = None
         self.cost_history= {}
     
-    def fit(self,dataset: Dataset, use_adaptive_alpha:bool= True):
+    def fit(self,dataset: Dataset, use_adaptive_alpha:bool= False):
         if use_adaptive_alpha:
             self._adaptive_fit(dataset)
         else:
