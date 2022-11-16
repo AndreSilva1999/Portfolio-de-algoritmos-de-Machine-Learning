@@ -25,6 +25,7 @@ class StackingClassifier:
         # parameters
         self.models = models
         self.final= final
+
     def fit(self, dataset: Dataset,final_model=None) -> 'StackingClassifier':
         """
         Fit the models according to the given training data.
@@ -40,8 +41,8 @@ class StackingClassifier:
         for model in self.models:
             model.fit(dataset)
         
-        fit = np.array([model.predict(dataset) for model in self.models]).transpose()
-        prev_prd_data= Dataset(X= fit,y= dataset.y)
+        pred = np.array([model.predict(dataset) for model in self.models]).transpose()
+        prev_prd_data= Dataset(X= pred,y= dataset.y)
         self.final.fit(prev_prd_data)
 
         return self

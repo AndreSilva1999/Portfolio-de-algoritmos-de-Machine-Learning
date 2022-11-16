@@ -82,12 +82,4 @@ Note: A python package also contains many configuration files (e.g., _setup.py_,
 
 
 ## Credits
-<<<<<<< HEAD
 This package is heavily inspired and adtaped from https://github.com/vmspereira/si.
-=======
-<<<<<<< HEAD
-This package is heavily inspired and adtaped from https://github.com/vmspereira/si.
-=======
-This package is heavily inspired and adtaped from https://github.com/vmspereira/si.
->>>>>>> 01e8830462667d8cacc40df23ee43f9e9137d949
->>>>>>> 640a6ab55fcf35ea9928cdd8a3af9f49bad5e9e8

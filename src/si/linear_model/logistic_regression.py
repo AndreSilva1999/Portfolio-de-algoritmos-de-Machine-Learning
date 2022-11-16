@@ -54,7 +54,7 @@ class LogisticRegression:
         self.theta_zero = None
         self.cost_history= {}
     
-    def fit(self,dataset: Dataset, use_adaptive_alpha:bool= False):
+    def fit(self,dataset: Dataset, use_adaptive_alpha:bool= True):
         if use_adaptive_alpha:
             self._adaptive_fit(dataset)
         else:
@@ -248,7 +248,3 @@ if __name__ == '__main__':
     for value in model.cost_history.keys():
         print(f"cost of {value+1} iteration is: {model.cost_history[value]}")
 
-
-
-
-    

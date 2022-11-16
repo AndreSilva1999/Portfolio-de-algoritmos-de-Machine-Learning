@@ -1,13 +1,9 @@
 from itertools import permutations
-import random
-import pandas as pd
 import numpy as np
 import sys
 from si.statistics.euclidean_distance import euclidean_distance
 sys.path.append("/Users/André Silva/SI/")
 from si.data.dataset1 import Dataset
-from typing import Callable
-from si.model_selection.split import train_test_split
 from si.metrics.accuracy import accuracy
 
 class KNNClassifier:
@@ -25,7 +21,7 @@ class KNNClassifier:
         #Obtem a distancia de uma sample ao dataset e retorna os k labels com maior proximidade
         distances= self.distance(sample,self.dataset.X)
         k_nearest= np.argsort(distances)[:self.k]
-        k_nearest_labels= self.dataset.y[k_nearest,]
+        k_nearest_labels= self.dataset.y[k_nearest]
         labels,counts=np.unique(k_nearest_labels,return_counts=True)
         return labels[np.argmax(counts)]
 

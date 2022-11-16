@@ -1,30 +1,83 @@
 from si.data.dataset1 import Dataset
 import numpy as np
 import pandas as pd
-from si.model_selection import split
+from si.model_selection.split import train_test_split
 from si.metrics.accuracy import accuracy
 
-def cross_validate(model,dataset:Dataset,scoring,cv,test_size,random_state:int = 42):
-    model=model
-    dataset=dataset
-    scoring=scoring
-    cv=cv
-    test_size=test_size
+def cross_validate(model,dataset:Dataset,scoring:callable =None,cv:int= 3,test_size:float=2):
+    """
+    Parameters
+    ----------
+    model
+        The model to cross validate.
+    dataset: Dataset
+        The dataset to cross validate on.
+    scoring: Callable
+        The scoring function to use.
+    cv: int
+        The cross validation folds.
+    test_size: float
+        The test size.
+    Returns
+    -------
+    scores: Dict[str, List[float]]
+        The scores of the model on the dataset.
+    """
+
     scores={"seeds":[],
     "train":[],
     "test":[]
     }
 
+    # for each fold
     for i in range(cv):
-         seed=np.random.randint(0,1000)
-         scores["seeds"] += [seed]
-         train, test= split(dataset,test_size,random_state=seed)
-         model.fit(train)
-    if scores is None:
-        scores["train"].append(model.score(train))
-        scores["test"].append(model.score(test))
-    else:
-        train= model.score(scoring,train)
-        test= model.score(scoring,test)
-        scores["train"]= train
-        scores["test"]= test
+        # get random seed
+        random_state = np.random.randint(0, 1000)
+
+        # store seed
+        scores['seeds'].append(random_state)
+
+        # split the dataset
+        train, test = train_test_split(dataset=dataset, test_size=test_size, random_state=random_state)
+
+        # fit the model on the train set
+        model.fit(train)
+
+        # score the model on the test set
+        if scoring is None:
+
+            # store the train score
+            scores['train'].append(model.score(train))
+
+            # store the test score
+            scores['test'].append(model.score(test))
+
+        else:
+            y_train = train.y
+            y_test = test.y
+
+            # store the train score
+            scores['train'].append(scoring(y_train, model.predict(train)))
+
+            # store the test score
+            scores['test'].append(scoring(y_test, model.predict(test)))
+
+    return scores
+
+
+if __name__ == '__main__':
+    # import dataset
+    from si.data.dataset1 import Dataset
+    from si.neighbors.knn_classifier import KNNClassifier
+
+    # load and split the dataset
+    dataset_ = Dataset.from_random(600, 100, 2)
+
+    # initialize the KNN
+    knn = KNNClassifier(examples=3)
+
+    # cross validate the model
+    scores_ = cross_validate(knn, dataset_, cv=5)
+
+    # print the scores
+    print(scores_)
