@@ -1,7 +1,8 @@
-import pandas as pd
+
 import numpy as np
 import itertools
 from si.data.dataset1 import Dataset
+
 class KMer:
 
     def __init__(self,size: int=3) -> None:
@@ -18,12 +19,13 @@ class KMer:
     def _get_all_combinations(self):
         alphabete= ["A","T","G","C"]
         combinations=itertools.product(alphabete,repeat=self.k)
-        return("%s%s%s" % tup for tup in (combinations))
+        return("%s"*self.k % tup for tup in (combinations))
     
     def _get_kmers(self,sequence):
-        return np.array([(sequence[0][i:i+self.k]) for i in range(len(sequence[0])-self.k+1)])
+        return np.array((sequence[0][i:i+self.k]) for i in range(len(sequence[0])-self.k+1))
     
     def fit(self,dataset):
+        print(dataset.X[0])
         self.kmers=np.apply_along_axis(self._get_kmers,axis=1,arr=dataset.X)
         self.fite= True
         return self
