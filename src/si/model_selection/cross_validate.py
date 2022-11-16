@@ -79,5 +79,4 @@ if __name__ == '__main__':
     # cross validate the model
     scores_ = cross_validate(knn, dataset_, cv=5)
 
-    # print the scores
-    print(scores_)
+    # print the score
