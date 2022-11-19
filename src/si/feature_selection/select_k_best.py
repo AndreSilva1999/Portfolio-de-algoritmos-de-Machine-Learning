@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 import sys
 from si.statistics.f_classification import f_classification
-sys.path.append("/Users/André Silva/SI/")
-from dataset import Dataset
+
+from si.data.dataset1 import Dataset
 
 
 class SelectKBest:
@@ -22,22 +22,22 @@ class SelectKBest:
     def transform(self,dataset)-> Dataset:
         idxs= np.argsort(self.F)[-self.k:]
         features= np.array(dataset.features)[idxs]
-        return Dataset(dataset.x[:, idxs], dataset.y,list(features),dataset.label)
+        return Dataset(dataset.X[:, idxs], dataset.y,list(features),dataset.label)
 
-    def fit_transform(self, dataset: Dataset):
+    def fit_transform(self, dataset):
         self.fit(dataset)
         return self.transform(dataset)
 
 
 if __name__== "__main__":
-    # from read_csv import read_csv
-    # data= read_csv("iris.csv",sep=",")
-    # percent= selecetPercentile(data)
-    # print(percent.fit_transform())
-    x= np.array([[1,2,3],[1,2,3]])
-    y= np.array([1,2])
-    features=["A","B","C"]
-    label= "y"
-    dataset= Dataset(x=x,y=y,features=features,label=label)
-    percent= SelectKBest(dataset,2)
-    percent.fit_transform(dataset)
+    from si.read_csv import read_csv
+    data= read_csv("iris.csv",sep=",")
+    percent= SelectKBest(data)
+    print(percent.fit_transform())
+    # x= np.array([[1,2,3],[1,2,3]])
+    # y= np.array([1,2])
+    # features=["A","B","C"]
+    # label= "y"
+    # dataset= Dataset(X=x,y=y,features=features,label=label)
+    # percent= SelectKBest(2)
+    # percent.fit_transform(dataset)
