@@ -27,8 +27,8 @@ class KMer:
     
     def _get_kmers(self,sequence):
         """_summary_
-
-        Args:
+        Gets the kmers 
+        Args:   
             sequence (list): return a list within a list [["ACTGACATCTACT"]]
             IMPORTANT! USE [0] TO GET STRING!
 
@@ -68,7 +68,7 @@ class KMer:
         return(np.array([counts[i]/len(seq[0]) for i in counts]))
 
 
-    def transform(self,dataset: Dataset):        
+    def transform(self,dataset: Dataset):      
         """_summary_
         Transforms the dataset to get an informative value of the data
         Args:

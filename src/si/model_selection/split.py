@@ -8,6 +8,16 @@ from typing import Callable
 
 
 def train_test_split(dataset: Dataset, test_size: float, random_state:int = 42):
+    """_summary_
+    Gives train and test for a given dataset
+    Args:
+        dataset (Dataset): Dataset
+        test_size (float): test size
+        random_state (int, optional): number for string. Defaults to 42.
+
+    Returns:
+        Test and train
+    """
     data= dataset.shape()[0]
     np.random.seed(random_state) #Para obter os meus resultados com os mesmos dados
     test_size=test_size

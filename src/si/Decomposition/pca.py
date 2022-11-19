@@ -11,6 +11,12 @@ from typing import Callable
 class PCA:
 
     def __init__(self, n:int) -> None:
+        """_summary_
+        Puts dataset.X data in diferent groups
+        Args:
+            n (int): Number of components
+        """
+
         self.n_componentes= n
         self.mean= None
         self.componentes:np.ndarray= None
@@ -18,18 +24,43 @@ class PCA:
 
 
     def _center_data(self,dataset:Dataset):
-        #Cetra dados iniciais
-        mean=dataset.get_average()
-        center= np.subtract(dataset.x,mean)
+        """_summary_
+
+        Args:
+            dataset (Dataset): Dataset
+
+        Returns:
+            Centered data
+            Returns dataset.x centrado
+        """
+        #Centra dados iniciais
+        mean=dataset.get_mean()
+        center= np.subtract(dataset.X,mean)
         return center
 
     def _get_SVD(self,dataset: Dataset):
+        """_summary_
+
+        Args:
+            dataset (Dataset): Dataset
+
+        Returns:
+            X,Vt
+        """
         #Calcula SVD
-        U,S,Vt= np.linalg.svd(dataset.x,full_matrices=False)
+        U,S,Vt= np.linalg.svd(dataset.X,full_matrices=False)
         X= np.matmul(np.matmul(U, np.diag(S)), Vt)
         return X,Vt
 
     def fit(self,dataset):
+        """_summary_
+        Does fit
+        Args:
+            dataset (Dataset): Dataset
+
+        Returns:
+            Returns components 
+        """
         center = self._center_data(dataset)
         self.mean,Vt= self._get_SVD(dataset)
         #estima a média, os componentes e a variância explicada
@@ -40,11 +71,19 @@ class PCA:
 
 
     def transform(self,dataset: Dataset):
+        """_summary_
+        
+        Args:
+            dataset (Dataset): _description_
+
+        Returns:
+            _type_: _description_
+        """
         #calcula o dataset reduzido usando os componentes principais
         self.fit(dataset)
         #Subtrai a media ao dataset
         print(self.componentes)
-        center=np.subtract(dataset.x,self.componentes.T)
+        center=np.subtract(dataset.X,self.componentes.T)
         #Reduçao....
         reduce_div= np.dot(center,self.componentes.T)
         return reduce_div

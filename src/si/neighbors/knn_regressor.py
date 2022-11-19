@@ -12,17 +12,41 @@ from si.metrics.rmse import rmse
 
 
 class KNNRegressor:
+    """_summary_
 
+    """
     def __init__(self, examples) -> None:
-            self.k= examples
-            self.distance= euclidean_distance
-            self.dataset= None
+        """_summary_
+        Initialize parameters
+        Args:
+            examples (float): _description_
+            dataset (Dataset): _description_
+        """
+        self.k= examples
+        self.distance= euclidean_distance
+        self.dataset= None
 
     def fit(self,dataset,size):
+        """_summary_
+
+        Args:
+            dataset (Dataset): Dataset
+
+        Returns:
+            Self
+        """
         self.dataset= train_test_split(dataset,size)[0]
         return self
 
     def _get_nearest_label(self,sample:np.ndarray):
+        """_summary_
+        Get nearest k neightbors
+        Args:
+            sample (np.ndarray): Sample of X
+
+        Returns:
+           np.array
+        """
         #Obtem a distancia de uma sample ao dataset e retorna os k labels com maior proximidade
         distances= self.distance(sample,self.dataset.x)
         k_nearest= np.argsort(distances)[:self.k]
@@ -31,10 +55,27 @@ class KNNRegressor:
 
 
     def predict(self,dataset: Dataset):
+        """_summary_
+        Does predict
+        Args:
+            dataset (_type_): _description_
+            sample (np.ndarray): _description_
+
+        Returns:
+            Np.array
+        """
         #Calcula a distância entre cada amostra e as várias amostras do dataset de treino
         return np.apply_along_axis(self._get_nearest_label,axis=1,arr= dataset.x)
 
     def score(self,dataset:Dataset):
+        """_summary_
+
+        Args:
+            dataset (Dataset): Dataset
+
+        Returns:
+           Scores
+        """
         predict=self.predict(dataset)
         return rmse(dataset.y,predict)
 

@@ -4,7 +4,7 @@ import pandas as pd
 from scipy import stats
 import sys
 sys.path.append("/Users/André Silva/SI/")
-from dataset import Dataset
+from si.data.dataset1 import Dataset
 
 
 def f_classification(dataset:Dataset):
@@ -17,6 +17,6 @@ def f_classification(dataset:Dataset):
         f,p : Returns the freq and prob of each 
     """
     classes = dataset.get_classes()
-    groups = [dataset.x[dataset.y == c] for c in classes]
+    groups = [dataset.X[dataset.y == c] for c in classes]
     F, p = stats.f_oneway(*groups)
     return F, p
