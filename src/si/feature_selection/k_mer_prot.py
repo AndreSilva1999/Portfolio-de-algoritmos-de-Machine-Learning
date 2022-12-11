@@ -1,4 +1,3 @@
-
 import numpy as np
 import itertools
 from si.data.dataset1 import Dataset
@@ -28,7 +27,7 @@ class KMer_prot:
         """
         alphabete= ['A','C','D','E','F','G','H','I','K','L','M','N','P','Q','R','S','T','V','W','Y','X','B','Z','J']
         combinations=itertools.product(alphabete,repeat=self.k)
-        return("%s"*self.k % tup for tup in (combinations))
+        return("".join(tup) for tup in (combinations))
     
     def _get_kmers(self,sequence):
         """_summary_
