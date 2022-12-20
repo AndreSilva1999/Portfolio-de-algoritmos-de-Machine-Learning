@@ -1,8 +1,5 @@
 import numpy as np
 
-
-
-
 def cross_entropy(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     """_summary_
     Gives a score based on cross_entropy  

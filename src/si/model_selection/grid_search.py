@@ -39,12 +39,15 @@ if __name__ == '__main__':
     # import dataset
     from si.data.dataset1 import Dataset
     from si.linear_model.logistic_regression import LogisticRegression
+    from si.read_csv import read_csv
+    from sklearn.preprocessing import StandardScaler
 
     # load and split the dataset
-    dataset_ = Dataset.from_random(600, 100, 2)
+    breast_dataset = read_csv("/Users/André Silva/SI/datasets/breast-bin.csv")
+    breast_dataset.X = StandardScaler().fit_transform(breast_dataset.X)
 
     # initialize the Logistic Regression model
-    knn = LogisticRegression()
+    logs = LogisticRegression()
 
     # parameter grid
     parameter_grid_ = {
@@ -54,8 +57,8 @@ if __name__ == '__main__':
     }
 
     # cross validate the model
-    scores_ = grid_search_cv(knn,
-                             dataset_,
+    scores_ = grid_search_cv(logs,
+                             breast_dataset,
                              parameter_grid=parameter_grid_,
                              cv=3)
 

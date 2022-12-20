@@ -36,4 +36,4 @@ def mse_derivate(y_true: np.ndarray, y_pred: np.ndarray) -> float:
         The mean squared error of the model
     """
     N= y_true.shape[0]
-    return -np.sum(y_true - y_pred)/Ns
+    return -np.sum(y_true - y_pred)/N
