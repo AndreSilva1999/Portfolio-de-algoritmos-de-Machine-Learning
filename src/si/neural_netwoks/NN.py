@@ -1,12 +1,13 @@
 from si.data.dataset1 import Dataset
 import numpy as np
 import typing as Ml
-from si.neural_netwoks.Layer import Dense,SigmoidActivation
-from si.metrics.mse import mse_derivate,mse
+from si.neural_netwoks.layer import Dense,SigmoidActivation
+from si.metrics.mse import derivate,mse
 from si.metrics.accuracy import accuracy
+
 class NN:
 
-    def __init__(self,layers: list,epochs: int = 1000,learning_rate:float=0.01,loss_function= mse,loss_derivate= mse_derivate,verbose= True) -> None:
+    def __init__(self,layers: list,epochs: int = 1000,learning_rate:float=0.01,loss_function= mse,loss_derivate= derivate,verbose= True) -> None:
         """_summary_
         Initializes parameters and atributes
         Args:
@@ -23,7 +24,6 @@ class NN:
         self.learning_rate= learning_rate
         self.verbose= verbose
         #Atributes
-        self.fitted= False
         self.history={}
 
 
@@ -51,23 +51,26 @@ class NN:
         """
         #Foward prop
         for i in range(1,self.epoc+1):
-            y_true= np.array(dataset.X)
-            y_pred= np.reshape(dataset.y,(-1,1))
+            y_pred= dataset.X.copy()
+            y_true= np.reshape(dataset.y,(-1,1))
 
             for layer in self.layers:
-                y_true= layer.foward(y_true)
+                y_pred= layer.forward(y_pred)
 
             #Backward prop
 
-            error= self.loss_derivative(y_pred,y_true)
+            error= self.loss_derivative(y_true,y_pred)  
             for layer in self.layers[::-1]:
                 error = layer.backward(error, self.learning_rate)
             #Save cost
-            cost= self.loss_function(y_pred,y_true)
+            cost= self.loss_function(y_true,y_pred)
             self.history[i]=cost
 
             if self.verbose:
                 print(f"Epoch {i}/{self.epoc}-{cost=:.4f}")
+
+        return self
+
 
     def cost(self, dataset: Dataset) -> float:
         """
@@ -83,6 +86,7 @@ class NN:
         """
         y_pred = self.predict(dataset)
         return self.loss(dataset.y, y_pred)
+        
 
     def score(self, dataset: Dataset, scoring_func = accuracy) -> float:
         """

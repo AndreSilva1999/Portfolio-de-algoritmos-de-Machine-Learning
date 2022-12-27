@@ -20,9 +20,9 @@ class Dataset:
         label: str (1)
             The label name
         """
+
         if X is None:
             raise ValueError("X cannot be None")
-
         if features is None:
             features = [str(i) for i in range(X.shape[1])]
         else:
@@ -172,6 +172,7 @@ class Dataset:
                     n_samples: int,
                     n_features: int,
                     n_classes: int = 2,
+                    seed: int = None,
                     features: Sequence[str] = None,
                     label: str = None):
         """

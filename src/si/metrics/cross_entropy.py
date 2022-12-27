@@ -26,5 +26,6 @@ def cross_entropy_derivate(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     """
 
     n= y_pred.shape[0]
-    return -y_true/(y_pred*n)
+    return y_pred-y_true
+    # return -y_true/(y_pred*n)
     

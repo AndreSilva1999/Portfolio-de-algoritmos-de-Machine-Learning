@@ -21,7 +21,7 @@ class Dense:
         self.X= None
         
 
-    def foward(self,input_data:np.ndarray)-> np.ndarray:
+    def forward(self,input_data:np.ndarray)-> np.ndarray:
         """Foward
         Args:
             input_data (np.ndarray)
@@ -32,7 +32,11 @@ class Dense:
         #Nr de colunas da 1 matriz tem que ser igual ao numero das linhas da 2
         #Numero de input tem que ser igual ao numero de features
         self.X= input_data
+        print(self)
+        print(self.X.shape)
+        print((np.dot(input_data,self.weights) + self.bias).shape)
         return np.dot(input_data,self.weights) + self.bias
+        
 
     def backward(self, error:np.ndarray, learning_rate:float)-> np.ndarray:
         """backwards
@@ -44,22 +48,23 @@ class Dense:
             np.ndarray: ndarray
         """
         #Get error of previous layer
-        error_to_propagate= np.dot(self.weights.T,error)
+        error_to_propagate= np.dot(error,self.weights.T)
         #Update weights and bias
-        self.weights-= learning_rate*np.dot(self.X.T,error)
-        self.bias-= learning_rate * np.sum(error, axis=0)
+        self.weights = self.weights - learning_rate*np.dot(self.X.T,error)
+        self.bias = self.bias - learning_rate * np.sum(error, axis=0)
         #Return error for previous layer
-        error_to_propagate= np.dot(error_to_propagate,self.weights.T)
         return error_to_propagate
+
+
 
 class SigmoidActivation:
     """_summary_
     Foward 
     """
     def __init__(self) -> None:
-        self.X= None 
+        pass
 
-    def foward(self,input_data): 
+    def forward(self,input_data: np.ndarray): 
         """_summary_
 
         Args:
@@ -68,28 +73,31 @@ class SigmoidActivation:
         Returns:
             _type_: _description_
         """
-        self.X= input_data
-        return sigmoid(input_data)
+        sigmoid_data= sigmoid(input_data)
+        return sigmoid_data
 
-
-    def backward(self,input_data,learning_rate):
+    def backward(self,input_data: np.ndarray,error: np.ndarray):
         """_summary_
 
         Args:
             input_data (_type_): _description_
         """
-        sigmoid_derivate= sigmoid(input_data)
-        sigmoid_derivate=sigmoid_derivate*(1-sigmoid_derivate)
-        return sigmoid_derivate
+        sigmoid_data= sigmoid(input_data)
+        sigmoid_derivate=sigmoid_data*(1-sigmoid_data)
+        error_to_propagate= error * sigmoid_derivate
+        return error_to_propagate
+
+
+
 
 class SoftMaxActivation:
     """_summary_
     Generats a foward based on SoftMaxActivation function
     """
     def __init__(self) -> None:
-        pass
+        self.X=None
 
-    def foward(self, input_data:Dataset):
+    def forward(self, input_data:Dataset):
         """_summary_
         Foward
         Args:
@@ -98,9 +106,10 @@ class SoftMaxActivation:
         Returns:
             _type_: Returns an np.ndarray
         """
-        return (np.exp(max(input_data.X))/np.sum(np.exp(input_data.X,axis=1,keepdims=True)))
+        self.X= input_data
+        return (np.exp(max(input_data))/np.sum(np.exp(input_data,axis=1,keepdims=True)))
 
-    def backprop(self,input_data:Dataset,error: float):
+    def backward(self,input_data:Dataset,error: float):
         """_summary_
         Backpropagation
         Args:
@@ -108,7 +117,7 @@ class SoftMaxActivation:
             error (float): float
         """
         #We need to use the output of our layer, or foward to get the error 
-        error_to_prop= input_data.X * (error-np.sum(error*input_data.X,axis=1,keepdims=True))
+        error_to_prop= input_data * (error-np.sum(error*input_data,axis=1,keepdims=True))
         return error_to_prop
 
     
@@ -119,7 +128,7 @@ class ReLUActivation:
     def __init__(self) -> None:
         pass
 
-    def foward(self,input_data:Dataset):
+    def forward(self,input_data:np.ndarray):
         """Foward
         Args:
             input_data (Dataset): Dataset
@@ -128,9 +137,9 @@ class ReLUActivation:
             _type_: Returns an np.ndarray
         """
         
-        return np.maximum(min(input_data.X),input_data.X)
+        return np.maximum(0,input_data)
 
-    def backprop(self,input_data:Dataset,error:np.ndarray)-> np.ndarray:
+    def backward(self,input_data:np.ndarray,error:np.ndarray)-> np.ndarray:
         """backpropagation
 
         Args:
@@ -139,11 +148,6 @@ class ReLUActivation:
         Returns: np.darray
         """
 
-        for data in input_data.X:
-            if data>0:
-                input_data.X[data]= 1
-            else:
-                input_data.X[data]= 0
-        
-        error_to_prop= error * (input_data.X)
+        input_data= np.where(input_data >1, 1,0)
+        error_to_prop= error * (input_data)
         return error_to_prop
