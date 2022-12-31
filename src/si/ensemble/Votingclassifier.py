@@ -102,7 +102,7 @@ if __name__ == '__main__':
     dataset_train, dataset_test = train_test_split(dataset_, test_size=0.2)
 
     # initialize the KNN and Logistic classifier
-    knn = KNNClassifier(k=3)
+    knn = KNNClassifier(3)
     lg = LogisticRegression(l2_penalty=1, alpha=0.001, max_iter=1000)
 
     # initialize the Voting classifier
